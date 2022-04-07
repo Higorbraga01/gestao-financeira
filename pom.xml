@@ -12,7 +12,7 @@
     <artifactId>gestao-financeira</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gestao-financeira</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Projeto para controle de gastos pessoais</description>
     <properties>
         <java.version>11</java.version>
     </properties>
