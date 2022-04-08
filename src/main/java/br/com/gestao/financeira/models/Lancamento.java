@@ -1,6 +1,5 @@
 package br.com.gestao.financeira.models;
 
-import br.com.gestao.financeira.models.enums.TipoLancamento;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,5 +30,7 @@ public class Lancamento {
     private BigInteger valorTotal;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAlteracao;
+
+    @ManyToOne
     private TipoLancamento tipoLancamento;
 }
