@@ -19,7 +19,7 @@ public class ParcelaLancamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Lancamento lancamento;
     private LocalDateTime data;
     private BigInteger valor;
