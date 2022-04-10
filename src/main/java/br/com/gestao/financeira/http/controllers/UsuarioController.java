@@ -1,14 +1,11 @@
-package br.com.gestao.financeira.controllers;
+package br.com.gestao.financeira.http.controllers;
 
+import br.com.gestao.financeira.http.request.UsuarioRequest;
 import br.com.gestao.financeira.models.Usuario;
 import br.com.gestao.financeira.repositories.UsuarioRepository;
 import br.com.gestao.financeira.services.UsuarioService;
 import com.querydsl.core.types.Predicate;
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +25,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Usuario> createUser(@RequestBody Usuario dto){
+    public ResponseEntity<Usuario> createUser(@RequestBody UsuarioRequest dto){
         return ResponseEntity.ok(service.create(dto));
     }
 
@@ -45,7 +42,7 @@ public class UsuarioController {
     }
 
     @PatchMapping("/user/{id}")
-    public ResponseEntity<Usuario> updateUser(@PathVariable("id") Long id, @RequestBody Usuario dto){
+    public ResponseEntity<Usuario> updateUser(@PathVariable("id") Long id, @RequestBody UsuarioRequest dto){
         return ResponseEntity.ok(service.update(id,dto));
     }
 

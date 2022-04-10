@@ -6,11 +6,11 @@ import com.querydsl.core.types.Predicate;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseService<T> {
-    T create(T dto);
-    T update(Long id, T dto);
+public interface BaseService<E, T> {
+    E create(T dto);
+    E update(Long id, T dto);
     void delete(Long id);
-    Page<T> findAll(Predicate predicate, Pageable pageable);
-    List<T> findAll();
-    Optional<T> findById(Long id);
+    Page<E> findAll(Predicate predicate, Pageable pageable);
+    List<E> findAll();
+    Optional<E> findById(Long id);
 }

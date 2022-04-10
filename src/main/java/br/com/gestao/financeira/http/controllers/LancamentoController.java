@@ -1,5 +1,6 @@
-package br.com.gestao.financeira.controllers;
+package br.com.gestao.financeira.http.controllers;
 
+import br.com.gestao.financeira.http.request.LancamentoRequest;
 import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.repositories.LancamentoRepository;
 import br.com.gestao.financeira.services.LancamentoService;
@@ -26,7 +27,7 @@ public class LancamentoController {
     }
 
     @PostMapping("/lancamento")
-    public ResponseEntity<Lancamento> createLancamento(@RequestBody Lancamento dto){
+    public ResponseEntity<Lancamento> createLancamento(@RequestBody LancamentoRequest dto){
         return ResponseEntity.ok(service.create(dto));
     }
 
@@ -43,7 +44,7 @@ public class LancamentoController {
     }
 
     @PatchMapping("/lancamento/{id}")
-    public ResponseEntity<Lancamento> updateLancamento(@PathVariable("id") Long id, @RequestBody Lancamento dto){
+    public ResponseEntity<Lancamento> updateLancamento(@PathVariable("id") Long id, @RequestBody LancamentoRequest dto){
         return ResponseEntity.ok(service.update(id,dto));
     }
 

@@ -1,8 +1,7 @@
 package br.com.gestao.financeira.repositories;
 
-import br.com.gestao.financeira.models.Categoria;
-import br.com.gestao.financeira.models.QCategoria;
-import br.com.gestao.financeira.models.QLancamento;
+import br.com.gestao.financeira.models.QSubCategoria;
+import br.com.gestao.financeira.models.SubCategoria;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,14 +13,14 @@ import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoriaRepository extends
-        JpaRepository<Categoria, Long>,
-        QuerydslPredicateExecutor<Categoria>,
-        JpaSpecificationExecutor<Categoria>,
-        QuerydslBinderCustomizer<QCategoria> {
+public interface SubCategoriaRepository extends
+        JpaRepository<SubCategoria, Long>,
+        QuerydslPredicateExecutor<SubCategoria>,
+        JpaSpecificationExecutor<SubCategoria>,
+        QuerydslBinderCustomizer<QSubCategoria> {
 
     @Override
-    default void customize(QuerydslBindings bindings, QCategoria categoria) {
+    default void customize(QuerydslBindings bindings, QSubCategoria subCategoria) {
         bindings.bind(String.class).first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
     }
 }

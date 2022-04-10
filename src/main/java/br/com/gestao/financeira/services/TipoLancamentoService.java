@@ -1,8 +1,11 @@
 package br.com.gestao.financeira.services;
 
+import br.com.gestao.financeira.http.request.TipoLancamentoRequest;
+import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.models.TipoLancamento;
 import br.com.gestao.financeira.repositories.TipoLancamentoRepository;
 import com.querydsl.core.types.Predicate;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,22 +16,24 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TipoLancamentoService implements BaseService<TipoLancamento> {
+public class TipoLancamentoService implements BaseService<TipoLancamento, TipoLancamentoRequest> {
 
     private final TipoLancamentoRepository repository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public TipoLancamentoService(TipoLancamentoRepository repository) {
+    public TipoLancamentoService(TipoLancamentoRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public TipoLancamento create(TipoLancamento dto) {
-        return repository.save(dto);
+    public TipoLancamento create(TipoLancamentoRequest dto) {
+        return repository.save(modelMapper.map(dto, TipoLancamento.class));
     }
 
     @Override
-    public TipoLancamento update(Long id, TipoLancamento dto) {
+    public TipoLancamento update(Long id, TipoLancamentoRequest dto) {
         Optional<TipoLancamento> found = repository.findById(id);
         if(found.isPresent()){
             BeanUtils.copyProperties(dto, found.get());

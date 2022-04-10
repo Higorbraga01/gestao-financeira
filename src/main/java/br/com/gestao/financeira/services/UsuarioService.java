@@ -1,5 +1,6 @@
 package br.com.gestao.financeira.services;
 
+import br.com.gestao.financeira.http.request.UsuarioRequest;
 import br.com.gestao.financeira.models.Usuario;
 import br.com.gestao.financeira.repositories.UsuarioRepository;
 import com.querydsl.core.types.Predicate;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService implements BaseService<Usuario> {
+public class UsuarioService implements BaseService<Usuario, UsuarioRequest> {
 
     private final UsuarioRepository repository;
 
@@ -23,14 +24,14 @@ public class UsuarioService implements BaseService<Usuario> {
     }
 
     @Override
-    public Usuario create(Usuario dto) {
+    public Usuario create(UsuarioRequest dto) {
         Usuario usuario = new Usuario();
         BeanUtils.copyProperties(dto, usuario);
         return repository.save(usuario);
     }
 
     @Override
-    public Usuario update(Long id, Usuario dto) {
+    public Usuario update(Long id, UsuarioRequest dto) {
         Optional<Usuario> found = repository.findById(id);
         found.ifPresent(usuario -> {
             BeanUtils.copyProperties(dto, usuario);

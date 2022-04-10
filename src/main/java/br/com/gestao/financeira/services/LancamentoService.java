@@ -1,5 +1,6 @@
 package br.com.gestao.financeira.services;
 
+import br.com.gestao.financeira.http.request.LancamentoRequest;
 import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.repositories.LancamentoRepository;
 import com.querydsl.core.types.Predicate;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class LancamentoService implements BaseService<Lancamento> {
+public class LancamentoService implements BaseService<Lancamento, LancamentoRequest> {
 
     private final LancamentoRepository repository;
 
@@ -23,14 +24,14 @@ public class LancamentoService implements BaseService<Lancamento> {
     }
 
     @Override
-    public Lancamento create(Lancamento dto) {
+    public Lancamento create(LancamentoRequest dto) {
         Lancamento lancamento = new Lancamento();
         BeanUtils.copyProperties(dto, lancamento);
         return repository.save(lancamento);
     }
 
     @Override
-    public Lancamento update(Long id, Lancamento dto) {
+    public Lancamento update(Long id, LancamentoRequest dto) {
         Optional<Lancamento> found = repository.findById(id);
         if(found.isPresent()){
             BeanUtils.copyProperties(dto, found.get());

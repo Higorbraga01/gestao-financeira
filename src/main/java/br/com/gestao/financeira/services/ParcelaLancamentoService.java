@@ -1,5 +1,6 @@
 package br.com.gestao.financeira.services;
 
+import br.com.gestao.financeira.http.request.ParcelaLancamentoRequest;
 import br.com.gestao.financeira.models.ParcelaLancamento;
 import br.com.gestao.financeira.repositories.ParcelaLancamentoRepository;
 import com.querydsl.core.types.Predicate;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ParcelaLancamentoService implements BaseService<ParcelaLancamento> {
+public class ParcelaLancamentoService implements BaseService<ParcelaLancamento, ParcelaLancamentoRequest> {
 
     private final ParcelaLancamentoRepository repository;
 
@@ -22,12 +23,12 @@ public class ParcelaLancamentoService implements BaseService<ParcelaLancamento> 
     }
 
     @Override
-    public ParcelaLancamento create(ParcelaLancamento dto) {
+    public ParcelaLancamento create(ParcelaLancamentoRequest dto) {
         return null;
     }
 
     @Override
-    public ParcelaLancamento update(Long id, ParcelaLancamento dto) {
+    public ParcelaLancamento update(Long id, ParcelaLancamentoRequest dto) {
         return null;
     }
 
