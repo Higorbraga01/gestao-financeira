@@ -2,7 +2,6 @@ package br.com.gestao.financeira.repositories;
 
 import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.models.QLancamento;
-import br.com.gestao.financeira.models.QUsuario;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.jpa.repository.JpaRepository;

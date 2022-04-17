@@ -25,7 +25,7 @@ public class Lancamento {
     @ManyToOne
     private Periodicidade periodicidade;
     @ManyToOne
-    private Usuario usuario;
+    private User user;
     private Integer quantidadeRepeticao;
     private BigInteger valorTotal;
     private LocalDateTime dataCriacao;
