@@ -15,6 +15,8 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "Sub-Categoria")
@@ -28,7 +30,7 @@ public class SubCategoriaController {
     }
 
     @PostMapping("/sub_categoria")
-    public ResponseEntity<SubCategoria> createSubCategoria(@RequestBody SubCategoriaRequest dto){
+    public ResponseEntity<SubCategoria> createSubCategoria(@Valid @RequestBody SubCategoriaRequest dto){
         return ResponseEntity.ok(service.create(dto));
     }
 
@@ -45,7 +47,7 @@ public class SubCategoriaController {
     }
 
     @PatchMapping("/sub_categoria/{id}")
-    public ResponseEntity<SubCategoria> updateSubCategoria(@PathVariable("id") Long id, @RequestBody SubCategoriaRequest dto){
+    public ResponseEntity<SubCategoria> updateSubCategoria(@PathVariable("id") Long id, @Valid @RequestBody SubCategoriaRequest dto){
         return ResponseEntity.ok(service.update(id,dto));
     }
 

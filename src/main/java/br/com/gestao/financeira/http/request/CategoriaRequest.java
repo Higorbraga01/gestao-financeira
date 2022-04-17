@@ -10,7 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoriaRequest {
-
     private String nome;
-    private Long parentId;
 }

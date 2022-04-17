@@ -1,10 +1,7 @@
 package br.com.gestao.financeira.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class SubCategoria {
 
     @Id
@@ -20,8 +18,8 @@ public class SubCategoria {
     private Long id;
     private String nome;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "categoria_id")
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "CATEGORIA_FK"), referencedColumnName = "id")
     @JsonBackReference
     private Categoria categoria;
 }

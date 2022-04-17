@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +26,21 @@ public class SubCategoriaService implements BaseService<SubCategoria, SubCategor
     }
 
     @Override
+    @Transactional
     public SubCategoria create(SubCategoriaRequest dto) {
-        SubCategoria subCategoria = new SubCategoria();
-        return repository.save(modelMapper.map(dto, SubCategoria.class));
+        SubCategoria novaSubCategoria = new SubCategoria();
+        modelMapper.map(dto, novaSubCategoria);
+        return repository.save(novaSubCategoria);
     }
 
     @Override
     public SubCategoria update(Long id, SubCategoriaRequest dto) {
-        return null;
+        Optional<SubCategoria> found = repository.findById(id);
+        found.ifPresent(subCategoria -> {
+            modelMapper.map(dto, subCategoria);
+            repository.save(subCategoria);
+        });
+        return found.orElse(null);
     }
 
     @Override

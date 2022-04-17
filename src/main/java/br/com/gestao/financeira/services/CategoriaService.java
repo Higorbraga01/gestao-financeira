@@ -30,12 +30,6 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
     public Categoria create(CategoriaRequest dto) {
         Categoria categoria = new Categoria();
         modelMapper.map(dto, categoria);
-//        if(dto.getParentId() != null){
-//            Optional<Categoria> found = repository.findById(dto.getParentId());
-//            if(found.isPresent()){
-//                categoria.setCategoria(found.get());
-//            }
-//        }
         return repository.save(categoria);
     }
 
