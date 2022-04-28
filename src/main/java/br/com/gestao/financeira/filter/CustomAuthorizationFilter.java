@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-    private JwtUtil jwtUtil0;
+    private JwtUtil jwtUtil;
 
     @Value("${jwt.secret}")
     private String secret;
