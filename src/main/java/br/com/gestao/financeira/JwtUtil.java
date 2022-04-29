@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,6 +25,7 @@ import static java.util.Arrays.stream;
 @Component
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class JwtUtil {
 
     @Value("${jwt.secret}")
@@ -48,8 +51,16 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC256(secret.getBytes()));
     }
 
-    public String getUserNameFromSubject(String subject){
-        return verifyToken(subject).getSubject();
+    public UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String authorizationHeader) {
+        String token = this.getTokenFromAuthorizationHeader(authorizationHeader);
+        DecodedJWT decodedJWT = this.verifyToken(token);
+        String userName = this.getUserNameFromToken(decodedJWT.getToken());
+        Collection<SimpleGrantedAuthority> authorities = this.getRolesFromSubect(decodedJWT.getToken());
+        return  new UsernamePasswordAuthenticationToken(userName,null, authorities);
+    }
+
+    public String getUserNameFromToken(String token){
+        return verifyToken(token).getSubject();
     }
 
     public Collection<SimpleGrantedAuthority> getRolesFromSubect(String subject) {
@@ -62,7 +73,7 @@ public class JwtUtil {
     }
 
     public DecodedJWT verifyToken(String token){
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret.getBytes())).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(this.secret.getBytes())).build();
        return verifier.verify(token);
     }
 
