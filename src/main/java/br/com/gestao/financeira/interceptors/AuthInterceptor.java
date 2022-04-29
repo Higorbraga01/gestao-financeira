@@ -1,7 +1,9 @@
 package br.com.gestao.financeira.interceptors;
 
 import br.com.gestao.financeira.http.response.UserResponse;
-import lombok.extern.slf4j.Slf4j;
+import br.com.gestao.financeira.models.User;
+import br.com.gestao.financeira.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -14,8 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Slf4j
 public class AuthInterceptor extends HandlerInterceptorAdapter {
+
+    final UserRepository userRepository;
+
+    @Autowired
+    public AuthInterceptor(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -25,9 +33,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null) {
             principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         }
-        log.info("chamando interceptor {}", principal);
-        if (principal != null && principal.getClass() != String.class && !principal.equals("anonymousUser")) {
-            String keycloakUsername = principal.toString();
+
+        if (principal != null && !principal.equals("anonymousUser")) {
+            String userName = principal.toString();
 
             List<String> roles = SecurityContextHolder
                     .getContext()
@@ -36,10 +44,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                     .stream()
                     .map(Object::toString)
                     .collect(Collectors.toList());
-
-//            PessoaDTO pessoa = repository.findById(keycloakUsername).orElse(null);
-
-            request.setAttribute("currentUser", UserResponse.builder().roles(roles).username(keycloakUsername));
+            User user = userRepository.findByUsername(userName);
+            request.setAttribute("currentUser", new UserResponse(user.getId(), user.getName(), user.getUsername(), roles));
         }
 
         return true;

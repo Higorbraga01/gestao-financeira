@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -119,5 +120,13 @@ public class UserService implements BaseService<User, UserRequest>, UserDetailsS
     @Override
     public Optional<User> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public static User authenticated() {
+        try {
+            return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (Exception e){
+            return null;
+        }
     }
 }
