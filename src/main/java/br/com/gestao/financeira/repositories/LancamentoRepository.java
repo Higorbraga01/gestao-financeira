@@ -4,6 +4,8 @@ import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.models.QLancamento;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -18,6 +20,8 @@ public interface LancamentoRepository extends
         QuerydslPredicateExecutor<Lancamento>,
         JpaSpecificationExecutor<Lancamento>,
         QuerydslBinderCustomizer<QLancamento> {
+
+    Page<Lancamento> findAllByUser_Id(Long userId , Pageable pageable);
 
     @Override
     default void customize(QuerydslBindings bindings, QLancamento lancamento) {

@@ -60,4 +60,12 @@ public class LancamentoController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/lancamento/user")
+    public ResponseEntity<Page<Lancamento>> findAllLancamentosUser(
+            @QuerydslPredicate(root = Lancamento.class, bindings = LancamentoRepository.class) @Parameter(hidden = true) Predicate predicate,
+            @Parameter(hidden = true) Pageable pageable,
+            @RequestAttribute("currentUser") UserResponse currentUser){
+        return ResponseEntity.ok(service.findAllByUser(currentUser.getId(),pageable));
+    }
 }

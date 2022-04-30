@@ -74,10 +74,8 @@ public class UserController {
                 String username = decodedJWT.getSubject();
                 UserDetails userDetails = service.loadUserByUsername(username);
                 String access_token = jwtUtil.generateAcessToken((org.springframework.security.core.userdetails.User) userDetails, request);
-                String refresh_token = jwtUtil.generateRefreshToken((org.springframework.security.core.userdetails.User) userDetails, request);
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(),tokens);
             }catch (Exception exception){

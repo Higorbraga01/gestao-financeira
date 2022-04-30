@@ -87,4 +87,8 @@ public class LancamentoService implements BaseService<Lancamento, LancamentoRequ
     public Optional<Lancamento> findById(Long id) {
         return repository.findById(id);
     }
+
+    public  Page<Lancamento> findAllByUser(Long userId, Pageable pageable) {
+        return repository.findAllByUser_Id(userId, pageable);
+    }
 }
