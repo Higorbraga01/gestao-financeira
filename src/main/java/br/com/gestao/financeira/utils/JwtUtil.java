@@ -1,4 +1,4 @@
-package br.com.gestao.financeira;
+package br.com.gestao.financeira.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -40,7 +40,6 @@ public class JwtUtil {
     }
 
     public String generateRefreshToken(User user, HttpServletRequest request) {
-        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expiration))

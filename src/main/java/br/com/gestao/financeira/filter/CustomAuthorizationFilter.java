@@ -1,6 +1,6 @@
 package br.com.gestao.financeira.filter;
 
-import br.com.gestao.financeira.JwtUtil;
+import br.com.gestao.financeira.utils.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

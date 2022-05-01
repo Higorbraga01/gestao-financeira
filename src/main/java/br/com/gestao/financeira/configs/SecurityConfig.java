@@ -1,6 +1,6 @@
 package br.com.gestao.financeira.configs;
 
-import br.com.gestao.financeira.JwtUtil;
+import br.com.gestao.financeira.utils.JwtUtil;
 import br.com.gestao.financeira.filter.CustomAuthenticationFilter;
 import br.com.gestao.financeira.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;

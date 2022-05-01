@@ -1,6 +1,6 @@
 package br.com.gestao.financeira.http.controllers;
 
-import br.com.gestao.financeira.JwtUtil;
+import br.com.gestao.financeira.utils.JwtUtil;
 import br.com.gestao.financeira.http.request.RoleToUserForm;
 import br.com.gestao.financeira.http.request.UserRequest;
 import br.com.gestao.financeira.models.Role;
