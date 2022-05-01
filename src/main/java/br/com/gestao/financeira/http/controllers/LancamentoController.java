@@ -32,8 +32,8 @@ public class LancamentoController {
     }
 
     @PostMapping("/lancamento")
-    public ResponseEntity<Lancamento> createLancamento(@RequestBody  @Valid LancamentoRequest dto){
-        return ResponseEntity.ok(service.create(dto));
+    public ResponseEntity<Lancamento> createLancamento(@RequestBody  @Valid LancamentoRequest dto, @RequestAttribute("currentUser") UserResponse currentUser){
+        return ResponseEntity.ok(service.createLancamentoWithUser(dto, currentUser));
     }
 
     @GetMapping("/lancamento/{id}")

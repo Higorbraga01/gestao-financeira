@@ -1,8 +1,10 @@
 package br.com.gestao.financeira.services;
 
 import br.com.gestao.financeira.http.request.LancamentoRequest;
+import br.com.gestao.financeira.http.response.UserResponse;
 import br.com.gestao.financeira.models.Lancamento;
 import br.com.gestao.financeira.models.ParcelaLancamento;
+import br.com.gestao.financeira.models.enums.StatusParcela;
 import br.com.gestao.financeira.repositories.LancamentoRepository;
 import br.com.gestao.financeira.repositories.ParcelaLancamentoRepository;
 import com.querydsl.core.types.Predicate;
@@ -18,6 +20,8 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static br.com.gestao.financeira.models.enums.StatusParcela.A_VENCER;
 
 @Service
 @Transactional
@@ -43,6 +47,17 @@ public class LancamentoService implements BaseService<Lancamento, LancamentoRequ
         }
         return lancamento;
     }
+    public Lancamento createLancamentoWithUser(LancamentoRequest dto, UserResponse userResponse) {
+        if(userResponse != null){
+            dto.setUserId(userResponse.getId());
+        }
+        Lancamento lancamento = modelMapper.map(dto, Lancamento.class);
+        lancamento = repository.saveAndFlush(lancamento);
+        if(lancamento.getQuantidadeRepeticao() > 0 && lancamento.getQuantidadeRepeticao() !=null){
+            generatorInstallments(lancamento);
+        }
+        return lancamento;
+    }
 
     private void generatorInstallments(Lancamento lancamento) {
         BigInteger valorParcela = lancamento.getValorTotal().divide(new BigInteger(String.valueOf(lancamento.getQuantidadeRepeticao())));
@@ -53,6 +68,7 @@ public class LancamentoService implements BaseService<Lancamento, LancamentoRequ
             parcela.setValor(valorParcela);
             parcela.setDataCriacao(LocalDateTime.now());
             parcela.setNumero(i+1);
+            parcela.setStatus(A_VENCER);
             parcelaLancamentoRepository.saveAndFlush(parcela);
         }
     }
