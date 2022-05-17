@@ -11,5 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CategoriaRequest {
     private String nome;
+    private String descricao;
     private Long userId;
 }
