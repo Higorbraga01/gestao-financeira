@@ -41,7 +41,7 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
         if(user !=null) {
             dto.setUserId(user.getId());
             if(mustVerifyCategoriaExistByNameAndUser(dto.getNome(), user.getId())){
-                throw new RuntimeException("Não é possivel cadastrar uma categoria com nome reptido");
+                throw new RuntimeException("Não é possível cadastrar uma categoria com nome repetido");
             }
         }
         modelMapper.map(dto, categoria);
