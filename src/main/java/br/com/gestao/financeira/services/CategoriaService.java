@@ -37,10 +37,13 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
     }
 
     public Categoria createCategoriaByUser(CategoriaRequest dto, UserResponse user){
+        Categoria categoria = new Categoria();
         if(user !=null) {
             dto.setUserId(user.getId());
+            if(mustVerifyCategoriaExistByNameAndUser(dto.getNome(), user.getId())){
+                throw new RuntimeException("Não é possivel cadastrar uma categoria com nome reptido");
+            }
         }
-        Categoria categoria = new Categoria();
         modelMapper.map(dto, categoria);
         return repository.save(categoria);
     }
@@ -78,5 +81,9 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
 
     public  Page<Categoria> findAllByUser(Long userId, Pageable pageable) {
         return repository.findAllByUser_Id(userId, pageable);
+    }
+
+    private Boolean mustVerifyCategoriaExistByNameAndUser(String nome, Long userId){
+        return repository.existsCategoriaByNomeAndUser_Id(nome,userId);
     }
 }

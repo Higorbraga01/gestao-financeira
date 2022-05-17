@@ -28,4 +28,5 @@ public interface CategoriaRepository extends
     }
 
     Page<Categoria> findAllByUser_Id(Long userId, Pageable pageable);
+    Boolean existsCategoriaByNomeAndUser_Id(String nome, Long id);
 }
