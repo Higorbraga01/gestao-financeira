@@ -19,4 +19,6 @@ public class Categoria {
     private String nome;
     @OneToMany(mappedBy = "categoria")
     private List<SubCategoria> subCategorias;
+    @ManyToOne
+    private User user;
 }

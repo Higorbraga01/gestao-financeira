@@ -5,6 +5,8 @@ import br.com.gestao.financeira.models.QCategoria;
 import br.com.gestao.financeira.models.QLancamento;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -24,4 +26,6 @@ public interface CategoriaRepository extends
     default void customize(QuerydslBindings bindings, QCategoria categoria) {
         bindings.bind(String.class).first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
     }
+
+    Page<Categoria> findAllByUser_Id(Long userId, Pageable pageable);
 }

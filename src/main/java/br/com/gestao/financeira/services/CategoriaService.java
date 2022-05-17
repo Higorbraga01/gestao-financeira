@@ -1,7 +1,10 @@
 package br.com.gestao.financeira.services;
 
 import br.com.gestao.financeira.http.request.CategoriaRequest;
+import br.com.gestao.financeira.http.response.UserResponse;
 import br.com.gestao.financeira.models.Categoria;
+import br.com.gestao.financeira.models.Lancamento;
+import br.com.gestao.financeira.models.User;
 import br.com.gestao.financeira.repositories.CategoriaRepository;
 import com.querydsl.core.types.Predicate;
 import org.modelmapper.ModelMapper;
@@ -28,6 +31,15 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
 
     @Override
     public Categoria create(CategoriaRequest dto) {
+        Categoria categoria = new Categoria();
+        modelMapper.map(dto, categoria);
+        return repository.save(categoria);
+    }
+
+    public Categoria createCategoriaByUser(CategoriaRequest dto, UserResponse user){
+        if(user !=null) {
+            dto.setUserId(user.getId());
+        }
         Categoria categoria = new Categoria();
         modelMapper.map(dto, categoria);
         return repository.save(categoria);
@@ -62,5 +74,9 @@ public class CategoriaService implements BaseService<Categoria, CategoriaRequest
     @Override
     public Optional<Categoria> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public  Page<Categoria> findAllByUser(Long userId, Pageable pageable) {
+        return repository.findAllByUser_Id(userId, pageable);
     }
 }
