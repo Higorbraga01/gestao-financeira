@@ -1,5 +1,12 @@
 package br.com.gestao.financeira.http.controllers;
 
+import br.com.gestao.financeira.http.response.UserResponse;
+import br.com.gestao.financeira.models.Categoria;
+import br.com.gestao.financeira.models.Lancamento;
+import br.com.gestao.financeira.repositories.CategoriaRepository;
+import br.com.gestao.financeira.repositories.LancamentoRepository;
+import br.com.gestao.financeira.services.CategoriaService;
+import br.com.gestao.financeira.services.LancamentoService;
 import br.com.gestao.financeira.utils.JwtUtil;
 import br.com.gestao.financeira.http.request.RoleToUserForm;
 import br.com.gestao.financeira.http.request.UserRequest;
@@ -38,11 +45,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
 
     private final UserService service;
+    private final LancamentoService lancamentoService;
+    private final CategoriaService categoriaService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService service, JwtUtil jwtUtil) {
+    public UserController(UserService service, LancamentoService lancamentoService, CategoriaService categoriaService, JwtUtil jwtUtil) {
         this.service = service;
+        this.lancamentoService = lancamentoService;
+        this.categoriaService = categoriaService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -115,5 +126,21 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/lancamento")
+    public ResponseEntity<Page<Lancamento>> findAllUserLancamentos(
+            @QuerydslPredicate(root = Lancamento.class, bindings = LancamentoRepository.class) @Parameter(hidden = true) Predicate predicate,
+            @Parameter(hidden = true) Pageable pageable,
+            @RequestAttribute("currentUser") UserResponse currentUser){
+        return ResponseEntity.ok(lancamentoService.findAllByUser(currentUser.getId(),pageable));
+    }
+
+    @GetMapping("/user/categoria")
+    public ResponseEntity<Page<Categoria>> findAllUserCategorias(
+            @QuerydslPredicate(root = Categoria.class, bindings = CategoriaRepository.class) @Parameter(hidden = true) Predicate predicate,
+            @Parameter(hidden = true) Pageable pageable,
+            @RequestAttribute("currentUser") UserResponse currentUser){
+        return ResponseEntity.ok(categoriaService.findAllByUser(currentUser.getId(),pageable));
     }
 }
