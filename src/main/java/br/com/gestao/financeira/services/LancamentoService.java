@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static br.com.gestao.financeira.models.enums.StatusParcela.A_VENCER;
+import static br.com.gestao.financeira.models.enums.StatusParcela.VENCIDA;
 
 @Service
 @Transactional
@@ -63,12 +64,15 @@ public class LancamentoService implements BaseService<Lancamento, LancamentoRequ
         BigInteger valorParcela = lancamento.getValorTotal().divide(new BigInteger(String.valueOf(lancamento.getQuantidadeRepeticao())));
         for (int i = 0; lancamento.getQuantidadeRepeticao() > i ; i++){
             ParcelaLancamento parcela = new ParcelaLancamento();
+            LocalDateTime dataVencimentoParcela = lancamento.getDataCriacao().plusMonths(i + 1);
+            LocalDateTime hoje = LocalDateTime.now();
+            boolean after = dataVencimentoParcela.isBefore(hoje);
             parcela.setLancamento(lancamento);
-            parcela.setData(lancamento.getDataCriacao().plusMonths(i+1));
+            parcela.setData(dataVencimentoParcela);
             parcela.setValor(valorParcela);
             parcela.setDataCriacao(LocalDateTime.now());
             parcela.setNumero(i+1);
-            parcela.setStatus(A_VENCER);
+            parcela.setStatus(after ? VENCIDA : A_VENCER);
             parcelaLancamentoRepository.saveAndFlush(parcela);
         }
     }
